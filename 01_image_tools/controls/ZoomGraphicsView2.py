@@ -1,8 +1,10 @@
 from PySide6.QtWidgets import QGraphicsView, QGraphicsRectItem
-from PySide6.QtCore import Qt, Signal, QRectF, QPointF
+from PySide6.QtCore import Qt, Signal, QRectF, QPointF, QRect
 from PySide6.QtGui import QPainter, QPen
 
-class ZoomGraphicsView(QGraphicsView):
+from controls.MaskLayer import CMaskLayer
+
+class ZoomGraphicsView2(QGraphicsView):
     mousePosChanged = Signal(int, int)
     roiSelected = Signal(int, int, int, int)  # x, y, w, h
     zoomChanged = Signal(float)
@@ -40,6 +42,10 @@ class ZoomGraphicsView(QGraphicsView):
         self._roi_item = None
         self._drawing_roi = False
 
+        self.curMode = 0
+        self._layer_mask = CMaskLayer(self)
+
+
     # ================= ZOOM =================
     def wheelEvent(self, event):
         if event.angleDelta().y() == 0:
@@ -59,6 +65,8 @@ class ZoomGraphicsView(QGraphicsView):
     # ================= MOUSE =================
     def mousePressEvent(self, event):
         scene_pos = self.mapToScene(event.position().toPoint())
+
+        if self._layer_mask.mousePressEvent(event, scene_pos): return
 
         # ---- vẽ ROI (chuột phải) ----
         if event.button() == Qt.MouseButton.LeftButton:
@@ -88,6 +96,8 @@ class ZoomGraphicsView(QGraphicsView):
     def mouseMoveEvent(self, event):
         scene_pos = self.mapToScene(event.position().toPoint())
 
+        if self._layer_mask.mouseMoveEvent(event, scene_pos): return
+
         # ---- phát tọa độ pixel ----
         self.mousePosChanged.emit(int(scene_pos.x()), int(scene_pos.y()))
 
@@ -110,6 +120,8 @@ class ZoomGraphicsView(QGraphicsView):
         super().mouseMoveEvent(event)
 
     def mouseReleaseEvent(self, event):
+        if self._layer_mask.mouseReleaseEvent(event): return
+
         # ---- kết thúc ROI ----
         if event.button() == Qt.MouseButton.LeftButton and self._drawing_roi:
             self._drawing_roi = False
@@ -133,3 +145,21 @@ class ZoomGraphicsView(QGraphicsView):
         self._zoom = 0
         if item:
             self.fitInView(item, Qt.AspectRatioMode.KeepAspectRatio)
+
+    def setMode(self, mode: int) -> int:
+        if mode == self.curMode: return mode
+
+        if mode == 1:
+            if self._layer_mask._mask_img is not None:
+                self._layer_mask.mode_mask = 10
+                self.curMode = 1
+            else:
+                self._layer_mask.mode_mask = 0
+        elif mode == 0:
+            self._layer_mask.mode_mask = 0
+            self.curMode = 0
+
+        return self.curMode
+    
+    def initMark(self, r: QRect):
+        self._layer_mask.initMask(r.width(), r.height())

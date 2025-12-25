@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'wndImageToolsgELbkg.ui'
+## Form generated from reading UI file 'wndImageToolsLGmjBI.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.10.1
 ##
@@ -16,11 +16,11 @@ from PySide6.QtGui import (QAction, QBrush, QColor, QConicalGradient,
     QIcon, QImage, QKeySequence, QLinearGradient,
     QPainter, QPalette, QPixmap, QRadialGradient,
     QTransform)
-from PySide6.QtWidgets import (QApplication, QHBoxLayout, QMainWindow, QMenu,
-    QMenuBar, QSizePolicy, QStatusBar, QVBoxLayout,
-    QWidget)
+from PySide6.QtWidgets import (QApplication, QDockWidget, QHBoxLayout, QMainWindow,
+    QMenu, QMenuBar, QSizePolicy, QStatusBar,
+    QToolBar, QVBoxLayout, QWidget)
 
-from controls.ZoomGraphicsView import ZoomGraphicsView
+from controls.ZoomGraphicsView2 import ZoomGraphicsView2
 
 class Ui_wndImageTools(object):
     def setupUi(self, wndImageTools):
@@ -29,6 +29,11 @@ class Ui_wndImageTools(object):
         wndImageTools.resize(800, 600)
         self.mniFileOpen = QAction(wndImageTools)
         self.mniFileOpen.setObjectName(u"mniFileOpen")
+        self.actionToolbarMask = QAction(wndImageTools)
+        self.actionToolbarMask.setObjectName(u"actionToolbarMask")
+        self.actionToolbarMask.setCheckable(True)
+        self.actionToolbarMask.setChecked(False)
+        self.actionToolbarMask.setMenuRole(QAction.MenuRole.NoRole)
         self.centralwidget = QWidget(wndImageTools)
         self.centralwidget.setObjectName(u"centralwidget")
         self.verticalLayout = QVBoxLayout(self.centralwidget)
@@ -37,7 +42,7 @@ class Ui_wndImageTools(object):
         self.horizontalLayout = QHBoxLayout()
         self.horizontalLayout.setObjectName(u"horizontalLayout")
         self.horizontalLayout.setContentsMargins(3, 3, 3, 3)
-        self.grvMain = ZoomGraphicsView(self.centralwidget)
+        self.grvMain = ZoomGraphicsView2(self.centralwidget)
         self.grvMain.setObjectName(u"grvMain")
 
         self.horizontalLayout.addWidget(self.grvMain)
@@ -55,9 +60,19 @@ class Ui_wndImageTools(object):
         self.statusbar = QStatusBar(wndImageTools)
         self.statusbar.setObjectName(u"statusbar")
         wndImageTools.setStatusBar(self.statusbar)
+        self.toolBar = QToolBar(wndImageTools)
+        self.toolBar.setObjectName(u"toolBar")
+        wndImageTools.addToolBar(Qt.ToolBarArea.TopToolBarArea, self.toolBar)
+        self.dockWidget = QDockWidget(wndImageTools)
+        self.dockWidget.setObjectName(u"dockWidget")
+        self.dockWidgetContents = QWidget()
+        self.dockWidgetContents.setObjectName(u"dockWidgetContents")
+        self.dockWidget.setWidget(self.dockWidgetContents)
+        wndImageTools.addDockWidget(Qt.DockWidgetArea.LeftDockWidgetArea, self.dockWidget)
 
         self.menubar.addAction(self.mnuFile.menuAction())
         self.mnuFile.addAction(self.mniFileOpen)
+        self.toolBar.addAction(self.actionToolbarMask)
 
         self.retranslateUi(wndImageTools)
 
@@ -67,6 +82,8 @@ class Ui_wndImageTools(object):
     def retranslateUi(self, wndImageTools):
         wndImageTools.setWindowTitle(QCoreApplication.translate("wndImageTools", u"MainWindow", None))
         self.mniFileOpen.setText(QCoreApplication.translate("wndImageTools", u"Open", None))
+        self.actionToolbarMask.setText(QCoreApplication.translate("wndImageTools", u"Mask", None))
         self.mnuFile.setTitle(QCoreApplication.translate("wndImageTools", u"File", None))
+        self.toolBar.setWindowTitle(QCoreApplication.translate("wndImageTools", u"toolBar", None))
     # retranslateUi
 

@@ -42,7 +42,7 @@
        <number>3</number>
       </property>
       <item>
-       <widget class="ZoomGraphicsView" name="grvMain"/>
+       <widget class="ZoomGraphicsView2" name="grvMain"/>
       </item>
      </layout>
     </item>
@@ -66,17 +66,49 @@
    <addaction name="mnuFile"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
+  <widget class="QToolBar" name="toolBar">
+   <property name="windowTitle">
+    <string>toolBar</string>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="actionToolbarMask"/>
+  </widget>
+  <widget class="QDockWidget" name="dockWidget">
+   <attribute name="dockWidgetArea">
+    <number>1</number>
+   </attribute>
+   <widget class="QWidget" name="dockWidgetContents"/>
+  </widget>
   <action name="mniFileOpen">
    <property name="text">
     <string>Open</string>
    </property>
   </action>
+  <action name="actionToolbarMask">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Mask</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::MenuRole::NoRole</enum>
+   </property>
+  </action>
  </widget>
  <customwidgets>
   <customwidget>
-   <class>ZoomGraphicsView</class>
+   <class>ZoomGraphicsView2</class>
    <extends>QGraphicsView</extends>
-   <header>controls.ZoomGraphicsView</header>
+   <header>controls.ZoomGraphicsView2</header>
   </customwidget>
  </customwidgets>
  <resources/>
